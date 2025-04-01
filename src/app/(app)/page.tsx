@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import Feed from './feed'
 
 const user = {
   name: 'Tom Cook',
@@ -295,9 +296,7 @@ export default function Page() {
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <div className="overflow-hidden rounded-lg bg-white shadow">
-                    <div className="p-6">{/* Your content */}</div>
-                  </div>
+                  <Feed />
                 </section>
               </div>
 
