@@ -10,19 +10,18 @@ const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
   imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    'https://b.fssta.com/uploads/application/soccer/headshots/713.vresize.350.350.medium.34.png',
 }
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Profile', href: '#', current: false },
-  { name: 'Resources', href: '#', current: false },
-  { name: 'Company Directory', href: '#', current: false },
-  { name: 'Openings', href: '#', current: false },
+  { name: 'Promoções', href: '#', current: true },
+  { name: 'Cupons', href: '#', current: false },
+  { name: 'Mais Quentes', href: '#', current: false },
+  { name: 'Nova Promoção', href: '#', current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Seu Perfil', href: '#' },
+  { name: 'Configurações', href: '#' },
+  { name: 'Sair', href: '#' },
 ]
 
 function classNames(...classes: string[]) {
@@ -41,11 +40,11 @@ export default function Page() {
                   {/* Logo */}
                   <div className="absolute left-0 flex-shrink-0 lg:static">
                     <a href="#">
-                      <span className="sr-only">Your Company</span>
+                      <span className="sr-only">MixPromo</span>
                       <img
                         className="h-8 w-auto"
                         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=blue&shade=300"
-                        alt="Your Company"
+                        alt="MixPromo"
                       />
                     </a>
                   </div>
@@ -108,7 +107,7 @@ export default function Page() {
                         <input
                           id="desktop-search"
                           className="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm"
-                          placeholder="Search"
+                          placeholder="Pesquisar..."
                           type="search"
                           name="search"
                         />
@@ -160,7 +159,7 @@ export default function Page() {
                           <input
                             id="mobile-search"
                             className="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm"
-                            placeholder="Search"
+                            placeholder="Pesquisar..."
                             type="search"
                             name="search"
                           />
@@ -205,7 +204,7 @@ export default function Page() {
                               <img
                                 className="h-8 w-auto"
                                 src="https://tailwindui.com/img/logos/mark.svg?color=sky&shade=600"
-                                alt="Your Company"
+                                alt="MixPromo"
                               />
                             </div>
                             <div className="-mr-2">
@@ -317,8 +316,8 @@ export default function Page() {
         <footer>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div className="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left">
-              <span className="block sm:inline">&copy; 2021 Your Company, Inc.</span>{' '}
-              <span className="block sm:inline">All rights reserved.</span>
+              <span className="block sm:inline">&copy; 2025 MixPromo, Ltda.</span>{' '}
+              <span className="block sm:inline">Todos os direitos reservados.</span>
             </div>
           </div>
         </footer>
