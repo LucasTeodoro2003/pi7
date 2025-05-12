@@ -31,7 +31,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export async function Page() {
+export default async function Page() {
   const session = await auth();
   const userId = session?.user?.id;
 
