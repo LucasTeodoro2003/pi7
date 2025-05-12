@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Feed from './feed'
 import { auth } from '@/shared/lib/auth'
 import { redirect } from 'next/navigation'
+import db from '@/shared/lib/prisma'
 
 const user = {
   name: 'Tom Cook',
