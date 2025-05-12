@@ -5,6 +5,8 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Feed from './feed'
+import { auth } from '@/shared/lib/auth'
+import { redirect } from 'next/navigation'
 
 const user = {
   name: 'Tom Cook',
@@ -28,7 +30,26 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Page() {
+export async function Page() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
+  const user1 = await db.user.findUnique({
+    where: { id: userId },
+  });
+
+  const users = await db.user.findMany();
+  console.log(users)
+
+
+  if (!user1 || user1.permission === 3) {
+    redirect("/noAcess");
+  }
+
   return (
     <>
       <div className="min-h-full bg-gray-100">

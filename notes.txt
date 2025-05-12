@@ -7,3 +7,6 @@ refactor: -> refatoraçao do codigo
 perf: -> melhoria de desempenho
 test: -> adiciona testes
 ci: -> adiciona pipeline nos testes
+
+
+senhabancoDados=mixpromo2025
