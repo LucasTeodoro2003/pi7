@@ -22,7 +22,7 @@ export default function LoginPage() {
       </div>
       <div className="relative hidden bg-muted lg:block">
         <img
-          src="https://img3.stockfresh.com/files/o/olgayakovenko/m/65/430395_stock-photo-discount-seamless-background.jpg"
+          src="https://static.vecteezy.com/ti/vetor-gratis/p1/35724238-3d-compras-bolsa-bolsa-com-desconto-e-presente-caixa-oferta-desconto-conectados-compras-conceito-para-promocao-marketing-e-publicidade-dentro-social-redes-3d-renderizacao-ilustracao-vetor.jpg"
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
