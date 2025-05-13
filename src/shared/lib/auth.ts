@@ -22,14 +22,16 @@ export const { handlers, auth, signIn } = NextAuth({
       authorize: async (credentials) => {
         const validateCredentials = schema.parse(credentials);
 
-        const hash = bcrypt.hashSync(validateCredentials.password, 10)
         const user = await db.user.findFirst({
           where: {
             email: validateCredentials.email,
-            password: hash,
           },
         });
-        if (!user) {
+        if (!user || !user.password) {
+          throw new Error("Usuário não existente!");
+        }
+        const valid = bcrypt.compareSync(validateCredentials.password, user.password)
+        if (!valid) {
           throw new Error("Credenciais Invalidas!");
         }
         return user;
