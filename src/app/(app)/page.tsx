@@ -20,8 +20,8 @@ export default async function Page() {
   const users = await db.user.findMany();
   console.log(users);
 
-  if (!user1 || user1.permission === 3) {
-    redirect("");
+  if (!user1 || user1.permission != 3) {
+    redirect("/noAcess");
   }
 
   const firstname = user1.name?.split(" ")[0] ?? "Sem Nome";
