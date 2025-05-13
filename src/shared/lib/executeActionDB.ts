@@ -23,7 +23,7 @@ const executeActionDB = async <T>({
 
     return {
       success: false,
-      message: "An error has occurred during executing the action",
+      message: (error as any).message || "Um erro desconhecido ocorreu!",
     };
   }
 };

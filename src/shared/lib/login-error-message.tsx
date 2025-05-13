@@ -7,7 +7,7 @@ export function LoginErrorMessage() {
   const error = params.get("error");
 
   if (error) {
-    return <span className="text-red-600 text-sm">Credenciais inválidas!</span>;
+    return <span className="text-red-600 text-sm">{error}</span>;
   } else {
     return null;
   }

@@ -2,6 +2,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
+import { executeActionDB } from "./executeActionDB";
 import { signIn } from "./auth";
 import { SignUpGitHub } from "@/app/api/auth/callback/github";
 import { redirect } from "next/navigation";
@@ -19,7 +20,9 @@ export function LoginForm({
           await signIn("credentials", formData);
         } catch (err) {
           if (((err as any).type = "CallbackRouteError")) {
-            redirect("/login?error=true");
+            redirect(
+              "/login?error=" + encodeURIComponent("Credenciais inválidas!")
+            );
           }
         }
       }}
