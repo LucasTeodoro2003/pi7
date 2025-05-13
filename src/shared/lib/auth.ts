@@ -28,11 +28,11 @@ export const { handlers, auth, signIn } = NextAuth({
           },
         });
         if (!user || !user.password) {
-          throw new Error("Usuário não existente!");
+          throw new Error();
         }
         const valid = bcrypt.compareSync(validateCredentials.password, user.password)
         if (!valid) {
-          throw new Error("Credenciais Invalidas!");
+          throw new Error();
         }
         return user;
       },

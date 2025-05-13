@@ -2,35 +2,47 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
-import { executeActionDB } from "./executeActionDB";
 import { signIn } from "./auth";
 import { SignUpGitHub } from "@/app/api/auth/callback/github";
+import { redirect } from "next/navigation";
+import { LoginErrorMessage } from "./login-error-message";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
   return (
-    <form 
-    action={async (formData: FormData) => {
-      "use server";
-      await executeActionDB({
-        actionFn: async () => {
+    <form
+      action={async (formData: FormData) => {
+        "use server";
+        try {
           await signIn("credentials", formData);
-        },
-      });
-    }}
-    className={cn("flex flex-col gap-6", className)} {...props}>
+        } catch (err) {
+          if (((err as any).type = "CallbackRouteError")) {
+            redirect("/login?error=true");
+          }
+        }
+      }}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
         <p className="text-balance text-sm text-muted-foreground">
           Enter your email below to login to your account
         </p>
       </div>
+      <LoginErrorMessage />
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" name="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="m@example.com"
+            required
+          />
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
