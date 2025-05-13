@@ -35,7 +35,7 @@ interface PageClientProps {
   users: User[];
 }
 
-export default async function PageClient({user, firtsname, users}:PageClientProps) {
+export default function PageClient({user, firtsname, users}:PageClientProps) {
   return (
     <>
       <div className="min-h-full bg-gray-100">
