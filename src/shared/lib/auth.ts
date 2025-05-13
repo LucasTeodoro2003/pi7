@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { schema } from "./schema";
 import { v4 as uuid } from "uuid";
 import { encode } from "@auth/core/jwt";
+import bcrypt from "bcryptjs";
 
 const adapter = PrismaAdapter(db);
 
@@ -21,10 +22,11 @@ export const { handlers, auth, signIn } = NextAuth({
       authorize: async (credentials) => {
         const validateCredentials = schema.parse(credentials);
 
+        const hash = bcrypt.hashSync(validateCredentials.password, 10)
         const user = await db.user.findFirst({
           where: {
             email: validateCredentials.email,
-            password: validateCredentials.password,
+            password: hash,
           },
         });
         if (!user) {
