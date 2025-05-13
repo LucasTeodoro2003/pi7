@@ -23,13 +23,13 @@ export default async function LoginPage() {
             Acme Inc.
           </a>
         </div>
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-1 items-center justify-center shadow-2xl shadow-black">
           <div className="w-full max-w-xs">
             <LoginForm />
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">
+      <div className="relative hidden bg-muted lg:block shadow-2xl shadow-sky-600">
         <img
           src="https://static.vecteezy.com/ti/vetor-gratis/p1/35724238-3d-compras-bolsa-bolsa-com-desconto-e-presente-caixa-oferta-desconto-conectados-compras-conceito-para-promocao-marketing-e-publicidade-dentro-social-redes-3d-renderizacao-ilustracao-vetor.jpg"
           alt="Image"
