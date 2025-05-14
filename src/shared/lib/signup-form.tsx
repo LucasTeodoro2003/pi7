@@ -7,7 +7,6 @@ import { Label } from "@/shared/ui/label";
 import { signUp } from "./actionsCreateuser";
 import { redirect } from "next/navigation";
 import { LoginErrorMessage } from "./login-error-message";
-import { Suspense } from "react";
 
 export function SignUpForm({
   className,
@@ -36,9 +35,7 @@ export function SignUpForm({
             }}
             className="flex flex-col gap-8"
           >
-            <Suspense>
-              <LoginErrorMessage />
-            </Suspense>
+            <LoginErrorMessage />
             <div className="grid gap-3">
               <Label
                 htmlFor="email"
