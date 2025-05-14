@@ -17,7 +17,9 @@ export function SignUpForm({
       <div>
         <div className="flex flex-col items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md">
-            <GalleryVerticalEnd className="size-6" />
+            <a href="/login" className="hover:cursor-pointer">
+              <GalleryVerticalEnd className="size-6" />
+            </a>
           </div>
           <span className="sr-only">Acme Inc.</span>
           <h1 className="text-xl font-bold">Criar Usuarios</h1>

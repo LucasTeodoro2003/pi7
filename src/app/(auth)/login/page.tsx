@@ -1,6 +1,6 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
-import { LoginForm } from "@/shared/lib/login-form"
+import { LoginForm } from "@/shared/lib/login-form-client"
 import { auth } from "@/shared/lib/auth";
 import { redirect } from "next/navigation";
 

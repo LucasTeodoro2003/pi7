@@ -1,31 +1,32 @@
+"use client";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
-import { executeActionDB } from "./executeActionDB";
-import { signIn } from "./auth";
 import { SignUpGitHub } from "@/app/api/auth/callback/github";
-import { redirect } from "next/navigation";
 import { LoginErrorMessage } from "./login-error-message";
+import { Suspense } from "react";
+import { loginAction } from "./loginActionForm";
+import { useFormStatus } from "react-dom";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  
+  function SumitButton() {
+    const { pending } = useFormStatus();
+
+    return (
+      <Button type="submit" className="w-full" disabled={pending}>
+        {pending ? "Carregando..." : "Login"}
+      </Button>
+    );
+  }
+
   return (
     <form
-      action={async (formData: FormData) => {
-        "use server";
-        try {
-          await signIn("credentials", formData);
-        } catch (err) {
-          if (((err as any).type = "CallbackRouteError")) {
-            redirect(
-              "/login?error=" + encodeURIComponent("Credenciais inválidas!")
-            );
-          }
-        }
-      }}
+      action={loginAction}
       className={cn("flex flex-col gap-6", className)}
       {...props}
     >
@@ -35,7 +36,9 @@ export function LoginForm({
           Enter your email below to login to your account
         </p>
       </div>
-      <LoginErrorMessage />
+      <Suspense>
+        <LoginErrorMessage />
+      </Suspense>
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
@@ -59,9 +62,7 @@ export function LoginForm({
           </div>
           <Input id="password" type="password" name="password" required />
         </div>
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
+        <SumitButton />
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
             Or continue with
