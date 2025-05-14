@@ -7,6 +7,7 @@ import { signIn } from "./auth";
 import { SignUpGitHub } from "@/app/api/auth/callback/github";
 import { redirect } from "next/navigation";
 import { LoginErrorMessage } from "./login-error-message";
+import { Suspense } from "react";
 
 export function LoginForm({
   className,
@@ -35,7 +36,9 @@ export function LoginForm({
           Enter your email below to login to your account
         </p>
       </div>
-      <LoginErrorMessage />
+      <Suspense>
+        <LoginErrorMessage />
+      </Suspense>
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
