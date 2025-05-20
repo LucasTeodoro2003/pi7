@@ -4,7 +4,6 @@ import { auth } from "@/shared/lib/auth";
 import db from "@/shared/lib/prisma";
 import { redirect } from "next/navigation";
 import PageClient from "./page_client";
-import { signOut } from "next-auth/react";
 
 export default async function Page() {
   const session = await auth();

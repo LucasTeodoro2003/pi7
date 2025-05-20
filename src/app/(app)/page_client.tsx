@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Feed from './feed'
 import { User } from '@prisma/client'
 import signGoOut from '@/shared/lib/signOut'
+import ModalServer from './modalserver'
 
 
 
@@ -306,6 +307,7 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                     Section title
                   </h2>
                   <Feed />
+                  <ModalServer user={user}/>
                 </section>
               </div>
 
