@@ -15,19 +15,27 @@ const signUp = async (formData: FormData) => {
       if (error) {
         const flattened = error.flatten();
         const errors = [
-          ...flattened.fieldErrors.email || [],
-          ...flattened.fieldErrors.password || [],
+          ...(flattened.fieldErrors.email || []),
+          ...(flattened.fieldErrors.password || []),
         ];
-        throw new Error(errors.join(', '));
+        throw new Error(errors.join(", "));
       }
-      const hash = bcrypt.hashSync(validateData.password, 10);
-      await db.user.create({
-        data: {
-          email: validateData.email.toLocaleLowerCase(),
-          password: hash,
-          permission: 3, //Usuario Normal 3 - Usuario Funcionario 2 - Usuario Administrador 1
-        },
-      });
+      try {
+        const hash = bcrypt.hashSync(validateData.password, 10);
+        await db.user.create({
+          data: {
+            email: validateData.email.toLocaleLowerCase(),
+            password: hash,
+            permission: 3, //Usuario so Olhar 3 - Usuario Criar Produtos 2 - Usuario Administrador 1
+          },
+        });
+      } catch (err:any) {
+        if(err.code === "P2002"){
+          throw new Error("Email já Cadastrado!");
+        }else{
+          throw new Error("Desconhecido - Erro: ", err.code)
+        }
+      }
     },
   });
 };

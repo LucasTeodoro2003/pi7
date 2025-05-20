@@ -24,17 +24,18 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   password      String?
   name          String?
-  email         String?         @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  permission    Int @default(3)
+  products Products[]
+  permission    Int       @default(3)
   // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  // Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,13 +47,9 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
   access_token      String?
-  expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
-  session_state     String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,26 +70,40 @@ model Session {
   updatedAt DateTime @updatedAt
 }
 
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
+model Products {
+  id          String  @id @default(cuid())
+  userProduct String
+  nome        String  @unique
+  image       String?
+  price       Int
+  link        String
+  user        User    @relation(fields: [userProduct], references: [id], onDelete: Cascade)
 
-  @@unique([identifier, token])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deleteProdutc DateTime?
 }
+
+// model VerificationToken {
+//   identifier String
+//   token      String
+//   expires    DateTime
+
+//   @@unique([identifier, token])
+// }
 
 // Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
+// model Authenticator {
+//   credentialID         String  @unique
+//   userId               String
+//   providerAccountId    String
+//   credentialPublicKey  String
+//   counter              Int
+//   credentialDeviceType String
+//   credentialBackedUp   Boolean
+//   transports           String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId, credentialID])
-}
+//   @@id([userId, credentialID])
+// }

@@ -1,5 +1,4 @@
-import { GalleryVerticalEnd } from "lucide-react";
-
+import { House } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
@@ -7,6 +6,7 @@ import { Label } from "@/shared/ui/label";
 import { signUp } from "./actionsCreateuser";
 import { redirect } from "next/navigation";
 import { LoginErrorMessage } from "./login-error-message";
+import { Suspense } from "react";
 
 export function SignUpForm({
   className,
@@ -15,13 +15,12 @@ export function SignUpForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div>
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center">
           <div className="flex h-8 w-8 items-center justify-center rounded-md">
             <a href="/login" className="hover:cursor-pointer">
-              <GalleryVerticalEnd className="size-6" />
+              <House className="size-6" />
             </a>
           </div>
-          <span className="sr-only">Acme Inc.</span>
           <h1 className="text-xl font-bold">Criar Usuarios</h1>
         </div>
         <div className="max-w-md mx-auto bg-gradient-to-tr from-blue-50 via-white to-blue-50 p-8 rounded-xl shadow-lg">
@@ -37,7 +36,6 @@ export function SignUpForm({
             }}
             className="flex flex-col gap-8"
           >
-            <LoginErrorMessage />
             <div className="grid gap-3">
               <Label
                 htmlFor="email"
@@ -78,6 +76,11 @@ export function SignUpForm({
             >
               CRIAR
             </Button>
+            <div className="text-center">
+              <Suspense>
+                <LoginErrorMessage />
+              </Suspense>
+            </div>
           </form>
         </div>
       </div>
