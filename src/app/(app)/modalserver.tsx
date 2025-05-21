@@ -7,5 +7,5 @@ interface ModalServerProps{
 
 export default function ModalServer({user}:ModalServerProps) {
   const openModal = !user.emailVerified;
-  return <ModalClient openModal={openModal} />;
+  return <ModalClient openModal={openModal} user={user}/>;
 }

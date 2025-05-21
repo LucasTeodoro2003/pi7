@@ -1,4 +1,5 @@
-import { Button } from "@/shared/ui/button"
+import { updateUser } from "@/shared/lib/actionsUpdateUser";
+import { Button } from "@/shared/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,42 +7,47 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/shared/ui/dialog"
-import { Input } from "@/shared/ui/input"
-import { Label } from "@/shared/ui/label"
+} from "@/shared/ui/dialog";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+import { User } from "@prisma/client";
+import { useState } from "react";
 
-interface ModalClientPromp{
+interface ModalClientPromp {
   openModal: boolean;
+  user: User;
 }
 
-export default function ModalClient({openModal}:ModalClientPromp) {
+export default function ModalClient({ openModal, user }: ModalClientPromp) {
   return (
-    <Dialog defaultOpen={openModal} >
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Primeiro Acesso</DialogTitle>
-          <DialogDescription>
-            Digite suas informações
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Nome
-            </Label>
-            <Input id="name" className="col-span-3" />
+    <Dialog open={openModal}>
+      <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
+        <form action={updateUser.bind(undefined, user.id)}>
+          <DialogHeader>
+            <DialogTitle>Primeiro Acesso</DialogTitle>
+            <DialogDescription>Digite suas informações</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4 ">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-center">
+                Nome
+              </Label>
+              <Input id="name" className="col-span-3" name="name" />
+            </div>
+            <div className="flex w-full items-center gap-1.5">
+            <Label htmlFor="image" className="text-center">
+                Selecione sua foto
+              </Label>
+              <div className="flex w-full items-center gap-1.5">
+                <Input id="image" type="file" name="image"/>
+              </div>
+            </div>
           </div>
-          {/* <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div> */}
-        </div>
-        <DialogFooter>
-          <Button type="submit">Salvar</Button>
-        </DialogFooter>
+          <DialogFooter>
+            <Button type="submit">Salvar</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
