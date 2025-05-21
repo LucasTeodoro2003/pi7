@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { fileToBase64 } from "./convertImage";
 
 export async function createPromotion(userId: string, formData: FormData) {
-  console.log("\n\nAQUI:",formData,"\n\n")
   const priceNew = (formData.get("price") as string).replace(".", ",")
   let data;
   if(formData.get("promoTime") !== ""){
@@ -13,7 +12,6 @@ export async function createPromotion(userId: string, formData: FormData) {
   }else{
     data = new Date(Date.now() + 24 * 60 * 60 * 1000)
   }
-  console.log("Versao1: ", priceNew)
   try {
     await db.products.create({
       data: {
