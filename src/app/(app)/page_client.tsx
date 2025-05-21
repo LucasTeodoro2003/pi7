@@ -1,15 +1,14 @@
-'use client'
+"use client";
 
-import { Fragment } from 'react'
-import { Menu, Popover, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import Feed from './feed'
-import { User } from '@prisma/client'
-import signGoOut from '@/shared/lib/signOut'
-import ModalServer from './modalserver'
-
-
+import { Fragment, useState } from "react";
+import { Menu, Popover, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import Feed from "./feed";
+import { User } from "@prisma/client";
+import signGoOut from "@/shared/lib/signOut";
+import ModalServer from "../../feature/updateUser/ui/modalserver";
+import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -17,20 +16,9 @@ import ModalServer from './modalserver'
 //   imageUrl:
 //     'https://b.fssta.com/uploads/application/soccer/headshots/713.vresize.350.350.medium.34.png',
 // }
-const navigation = [
-  { name: 'Promoções', href: '#', current: true },
-  { name: 'Cupons', href: '#', current: false },
-  { name: 'Mais Quentes', href: '#', current: false },
-  { name: 'Nova Promoção', href: '#', current: false },
-]
-const userNavigation = [
-  { name: 'Seu Perfil', href: '#' },
-  { name: 'Configurações', href: '#' },
-  { name: 'Sair', href: '#', onclick:signGoOut},
-]
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 interface PageClientProps {
@@ -39,7 +27,31 @@ interface PageClientProps {
   users: User[];
 }
 
-export default function PageClient({user, firtsname, users}:PageClientProps) {
+export default function PageClient({
+  user,
+  firtsname,
+  users,
+}: PageClientProps) {
+  const [openPromotion, setOpenPromotion] = useState(false);
+
+  const navigation = [
+    { name: "Promoções", href: "#", current: true },
+    { name: "Cupons", href: "#", current: false },
+    { name: "Mais Quentes", href: "#", current: false },
+    {
+      name: "Nova Promoção",
+      onclick: () => {
+        setOpenPromotion(true);
+      },
+      current: false,
+    },
+  ];
+  const userNavigation = [
+    { name: "Seu Perfil", href: "#" },
+    { name: "Configurações", href: "#" },
+    { name: "Sair", href: "#", onclick: signGoOut },
+  ];
+
   return (
     <>
       <div className="min-h-full bg-gray-100">
@@ -75,7 +87,11 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                       <div>
                         <Menu.Button className="flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={user.image || "ney.jpg"} alt="" />
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={user.image || "ney.jpg"}
+                            alt=""
+                          />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -91,8 +107,8 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                                 <a
                                   onClick={item.onclick}
                                   className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700'
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700"
                                   )}
                                 >
                                   {item.name}
@@ -113,7 +129,10 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                       </label>
                       <div className="relative text-white focus-within:text-gray-600">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+                          <MagnifyingGlassIcon
+                            className="h-5 w-5"
+                            aria-hidden="true"
+                          />
                         </div>
                         <input
                           id="desktop-search"
@@ -132,9 +151,15 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                     <Popover.Button className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-sky-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
-                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                        <XMarkIcon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
                       ) : (
-                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                        <Bars3Icon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
                       )}
                     </Popover.Button>
                   </div>
@@ -147,11 +172,12 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                           <a
                             key={item.name}
                             href={item.href}
+                            onClick={item.onclick}
                             className={classNames(
-                              item.current ? 'text-white' : 'text-sky-100',
-                              'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10'
+                              item.current ? "text-white" : "text-sky-100",
+                              "text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10 hover:cursor-pointer"
                             )}
-                            aria-current={item.current ? 'page' : undefined}
+                            aria-current={item.current ? "page" : undefined}
                           >
                             {item.name}
                           </a>
@@ -165,7 +191,10 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                         </label>
                         <div className="relative text-white focus-within:text-gray-600">
                           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+                            <MagnifyingGlassIcon
+                              className="h-5 w-5"
+                              aria-hidden="true"
+                            />
                           </div>
                           <input
                             id="mobile-search"
@@ -221,7 +250,10 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                             <div className="-mr-2">
                               <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500">
                                 <span className="sr-only">Close menu</span>
-                                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                                <XMarkIcon
+                                  className="h-6 w-6"
+                                  aria-hidden="true"
+                                />
                               </Popover.Button>
                             </div>
                           </div>
@@ -261,18 +293,31 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                         <div className="pt-4 pb-2">
                           <div className="flex items-center px-5">
                             <div className="flex-shrink-0">
-                              <img className="h-10 w-10 rounded-full" src={user.image || "ney.jpg"} alt="" />
+                              <img
+                                className="h-10 w-10 rounded-full"
+                                src={user.image || "ney.jpg"}
+                                alt=""
+                              />
                             </div>
                             <div className="ml-3 min-w-0 flex-1">
-                              <div className="truncate text-base font-medium text-gray-800">{user.name}</div>
-                              <div className="truncate text-sm font-medium text-gray-500">{user.email}</div>
+                              <div className="truncate text-base font-medium text-gray-800">
+                                {user.name}
+                              </div>
+                              <div className="truncate text-sm font-medium text-gray-500">
+                                {user.email}
+                              </div>
                             </div>
                             <button
                               type="button"
                               className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                             >
-                              <span className="sr-only">View notifications</span>
-                              <BellIcon className="h-6 w-6" aria-hidden="true" />
+                              <span className="sr-only">
+                                View notifications
+                              </span>
+                              <BellIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
                             </button>
                           </div>
                           <div className="mt-3 space-y-1 px-2">
@@ -307,7 +352,8 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
                     Section title
                   </h2>
                   <Feed />
-                  <ModalServer user={user}/>
+                  <ModalServer user={user} />
+                  <ModalServerProduct user={user} openProduct={openPromotion}/>
                 </section>
               </div>
 
@@ -328,12 +374,16 @@ export default function PageClient({user, firtsname, users}:PageClientProps) {
         <footer>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div className="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left">
-              <span className="block sm:inline">&copy; 2025 MixPromo, Ltda.</span>{' '}
-              <span className="block sm:inline">Todos os direitos reservados.</span>
+              <span className="block sm:inline">
+                &copy; 2025 MixPromo, Ltda.
+              </span>{" "}
+              <span className="block sm:inline">
+                Todos os direitos reservados.
+              </span>
             </div>
           </div>
         </footer>
       </div>
     </>
-  )
+  );
 }

@@ -11,7 +11,6 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { User } from "@prisma/client";
-import { useState } from "react";
 
 interface ModalClientPromp {
   openModal: boolean;

@@ -73,9 +73,9 @@ model Session {
 model Products {
   id          String  @id @default(cuid())
   userProduct String
-  nome        String  @unique
+  nome        String
   image       String?
-  price       Int
+  price       String
   link        String
   user        User    @relation(fields: [userProduct], references: [id], onDelete: Cascade)
 
