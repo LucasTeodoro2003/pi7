@@ -29,8 +29,6 @@ interface PageClientProps {
 
 export default function PageClient({
   user,
-  firtsname,
-  users,
 }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
 
@@ -353,7 +351,7 @@ export default function PageClient({
                   </h2>
                   <Feed />
                   <ModalServer user={user} />
-                  <ModalServerProduct user={user} openProduct={openPromotion}/>
+                  <ModalServerProduct user={user} openProduct={openPromotion} setOpenProduct={setOpenPromotion}/>
                 </section>
               </div>
 

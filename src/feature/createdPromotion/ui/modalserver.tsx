@@ -4,8 +4,9 @@ import ModalClientProduct from "./modalclient";
 interface ModalServerProductProps{
   user: User;
   openProduct: boolean;
+  setOpenProduct: (open: boolean) => void
 }
 
-export default function ModalServerProduct({user, openProduct}:ModalServerProductProps,) {
-  return <ModalClientProduct openProduct={openProduct} user={user}/>;
+export default function ModalServerProduct({user, openProduct, setOpenProduct}:ModalServerProductProps,) {
+  return <ModalClientProduct openProduct={openProduct} user={user} setOpenProduct={setOpenProduct}/>;
 }

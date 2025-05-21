@@ -14,15 +14,17 @@ import {createPromotion} from "@/shared/lib/actionsCreatePromotion"
 
 interface ModalClientProductPromp {
   openProduct: boolean;
+  setOpenProduct: (open: boolean) => void;
   user: User;
 }
 
 export default function ModalClientProduct({
   openProduct,
   user,
+  setOpenProduct,
 }: ModalClientProductPromp) {
   return (
-    <Dialog open={openProduct}>
+    <Dialog open={openProduct} onOpenChange={setOpenProduct}>
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
         <form action={createPromotion.bind(undefined, user.id)}>
           <DialogHeader>
