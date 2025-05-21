@@ -74,14 +74,15 @@ model Products {
   id          String  @id @default(cuid())
   userProduct String
   nome        String
-  image       String?
+  image       String
   price       String
   link        String
+  typeProduct String
+  deleteProdutc DateTime?
   user        User    @relation(fields: [userProduct], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deleteProdutc DateTime?
 }
 
 // model VerificationToken {
