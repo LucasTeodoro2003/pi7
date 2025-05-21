@@ -37,7 +37,7 @@ export default function ModalClientProduct({
                 <Label htmlFor="name" className="mb-1 font-medium">
                   Nome
                 </Label>
-                <Input id="name" name="name" placeholder="Ex: Fone" />
+                <Input id="name" name="name" placeholder="Ex: Fone" required/>
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="price" className="mb-1 font-medium">
@@ -49,6 +49,7 @@ export default function ModalClientProduct({
                   type="number"
                   step="0.01"
                   placeholder="Digite o Preço"
+                  required
                 />
               </div>
             </div>
@@ -63,6 +64,7 @@ export default function ModalClientProduct({
                   name="link"
                   type="url"
                   placeholder="Cole o link aqui"
+                  required
                 />
               </div>
               <div className="flex flex-col">
@@ -76,7 +78,7 @@ export default function ModalClientProduct({
               <Label htmlFor="image" className="mb-1 font-medium">
                 Imagem
               </Label>
-              <Input id="image" name="image" type="file" />
+              <Input id="image" name="image" type="file" required/>
             </div>
           </div>
 
