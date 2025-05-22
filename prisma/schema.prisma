@@ -24,16 +24,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   password      String?
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  products Products[]
-  permission    Int       @default(3)
+  products      Products[]
+  permission    Int        @default(3)
   // Optional for WebAuthn support
   // Authenticator Authenticator[]
 
@@ -42,23 +42,25 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String   @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
   access_token      String?
-  id_token          String?
   token_type        String?
   scope             String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  //GOOGLE NECESSITA
+  id_token          String?
+  expires_at        Int?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
-
 
 model Session {
   id           String   @id @default(cuid())
@@ -72,15 +74,15 @@ model Session {
 }
 
 model Products {
-  id          String  @id @default(cuid())
-  userProduct String
-  nome        String
-  image       String
-  price       String
-  link        String
-  typeProduct String
+  id            String    @id @default(cuid())
+  userProduct   String
+  nome          String
+  image         String
+  price         String
+  link          String
+  typeProduct   String
   deleteProdutc DateTime?
-  user        User    @relation(fields: [userProduct], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userProduct], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
