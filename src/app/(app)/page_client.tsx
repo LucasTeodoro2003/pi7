@@ -5,7 +5,7 @@ import { Menu, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Feed from "./feed";
-import { User } from "@prisma/client";
+import { Products, User } from "@prisma/client";
 import signGoOut from "@/shared/lib/signOut";
 import ModalServer from "../../feature/updateUser/ui/modalserver";
 import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
@@ -25,11 +25,10 @@ interface PageClientProps {
   user: User;
   firtsname: string;
   users: User[];
+  products: Products[];
 }
 
-export default function PageClient({
-  user,
-}: PageClientProps) {
+export default function PageClient({ user, products }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
 
   const navigation = [
@@ -256,36 +255,16 @@ export default function PageClient({
                             </div>
                           </div>
                           <div className="mt-3 space-y-1 px-2">
-                            <a
-                              href="#"
-                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                            >
-                              Home
-                            </a>
-                            <a
-                              href="#"
-                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                            >
-                              Profile
-                            </a>
-                            <a
-                              href="#"
-                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                            >
-                              Resources
-                            </a>
-                            <a
-                              href="#"
-                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                            >
-                              Company Directory
-                            </a>
-                            <a
-                              href="#"
-                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                            >
-                              Openings
-                            </a>
+                            {navigation.map((item) => (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                onClick={item.onclick}
+                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
+                              >
+                                {item.name}
+                              </a>
+                            ))}
                           </div>
                         </div>
                         <div className="pt-4 pb-2">
@@ -323,6 +302,7 @@ export default function PageClient({
                               <a
                                 key={item.name}
                                 href={item.href}
+                                onClick={item.onclick}
                                 className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
                               >
                                 {item.name}
@@ -349,9 +329,13 @@ export default function PageClient({
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed />
+                  <Feed products={products} />
                   <ModalServer user={user} />
-                  <ModalServerProduct user={user} openProduct={openPromotion} setOpenProduct={setOpenPromotion}/>
+                  <ModalServerProduct
+                    user={user}
+                    openProduct={openPromotion}
+                    setOpenProduct={setOpenPromotion}
+                  />
                 </section>
               </div>
 
@@ -362,7 +346,18 @@ export default function PageClient({
                     Section title
                   </h2>
                   <div className="overflow-hidden rounded-lg bg-white shadow">
-                    <div className="p-6">{/* Your content */}</div>
+                    <div className="p-6">
+                      <a
+                        className="w-full"
+                        href="https://max.com"
+                        target="_blank"
+                      >
+                        <img
+                          className="w-full"
+                          src="https://s0.2mdn.net/simgad/6944951142170773320"
+                        ></img>
+                      </a>
+                    </div>
                   </div>
                 </section>
               </div>

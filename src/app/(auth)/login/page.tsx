@@ -1,22 +1,22 @@
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd } from "lucide-react";
 
-import { LoginForm } from "@/shared/lib/login-form-client"
+import { LoginForm } from "@/shared/lib/login-form-client";
 import { auth } from "@/shared/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-    const session = await auth();
-    const userId = session?.user?.id;
-  
-    if (userId) {
-      redirect("/");
-    }
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (userId) {
+    redirect("/");
+  }
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 items-center justify-center shadow-2xl shadow-black">
-          <div className="w-full max-w-xs">
+          <div className="w-full max-w-xs px-5">
             <LoginForm />
           </div>
         </div>
@@ -29,5 +29,5 @@ export default async function LoginPage() {
         />
       </div>
     </div>
-  )
+  );
 }

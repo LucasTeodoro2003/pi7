@@ -34,7 +34,7 @@ export default function ModalClientProduct({
   setOpenProduct,
 }: ModalClientProductPromp) {
   const [type, setType] = useState<string>("PRODUTO");
-  
+
   return (
     <Dialog open={openProduct} onOpenChange={setOpenProduct}>
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
@@ -51,7 +51,12 @@ export default function ModalClientProduct({
                 <Label htmlFor="name" className="mb-1 font-medium">
                   Nome / Código Cupom
                 </Label>
-                <Input id="name" name="name" placeholder="Ex: Fone / cupomMania10" required />
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Ex: Fone / cupomMania10"
+                  required
+                />
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="price" className="mb-1 font-medium">
@@ -98,10 +103,9 @@ export default function ModalClientProduct({
             {/* VALOR DO TIPO  */}
             <input type="hidden" name="type" value={type} />
             {/* VALOR DO TIPO  */}
-
           </div>
 
-          <DialogFooter className="flex justify-between items-center">
+          <DialogFooter className="flex justify-between items-center flex-row">
             <div className="flex items-center">
               <Label htmlFor="isCoupon" className="text-sm font-medium mr-2">
                 Tipo:

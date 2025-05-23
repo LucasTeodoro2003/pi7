@@ -25,8 +25,14 @@ export default async function Page() {
 
   const firstname = user1.name?.split(" ")[0] ?? "Sem Nome";
 
+  const products = await db.products.findMany();
 
   return (
-      <PageClient user={user1} firtsname={firstname} users={users} />
+    <PageClient
+      user={user1}
+      firtsname={firstname}
+      users={users}
+      products={products}
+    />
   );
 }
