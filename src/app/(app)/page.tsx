@@ -8,11 +8,11 @@ import PageClient from "./page_client";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ search: string }>;
+  searchParams: Promise<{ search: string; type: string }>;
 }) {
   const session = await auth();
   const userId = session?.user?.id;
-  const { search } = await searchParams;
+  const { search, type } = await searchParams;
 
   if (!userId) {
     redirect("/login");
@@ -47,6 +47,12 @@ export default async function Page({
       nome: {
         search: search || undefined,
       },
+      typeProduct:
+        type === "products"
+          ? "PRODUTO"
+          : type === "coupons"
+          ? "CUPOM"
+          : undefined,
     },
     orderBy: {
       createdAt: "desc",

@@ -36,9 +36,9 @@ export default function PageClient({ user, products }: PageClientProps) {
   const searchParams = useSearchParams();
 
   const navigation = [
-    { name: "Promoções", href: "#", current: true },
-    { name: "Cupons", href: "#", current: false },
-    { name: "Mais Quentes", href: "#", current: false },
+    { name: "Tudo", href: "/", current: false },
+    { name: "Produtos", href: "/?type=products", current: true },
+    { name: "Cupons", href: "/?type=coupons", current: false },
     {
       name: "Nova Promoção",
       onclick: () => {
