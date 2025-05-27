@@ -14,7 +14,8 @@
 // }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
@@ -54,8 +55,8 @@ model Account {
   updatedAt         DateTime @updatedAt
 
   //GOOGLE NECESSITA
-  id_token          String?
-  expires_at        Int?
+  id_token   String?
+  expires_at Int?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

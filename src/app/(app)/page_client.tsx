@@ -9,6 +9,7 @@ import { Products, User } from "@prisma/client";
 import signGoOut from "@/shared/lib/signOut";
 import ModalServer from "../../feature/updateUser/ui/modalserver";
 import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -30,6 +31,9 @@ interface PageClientProps {
 
 export default function PageClient({ user, products }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const navigation = [
     { name: "Promoções", href: "#", current: true },
@@ -137,6 +141,12 @@ export default function PageClient({ user, products }: PageClientProps) {
                           placeholder="Pesquisar..."
                           type="search"
                           name="search"
+                          defaultValue={searchParams.get("search") || ""}
+                          onChange={(e) => {
+                            e.target.value
+                              ? router.replace("/?search=" + e.target.value)
+                              : router.replace("/");
+                          }}
                         />
                       </div>
                     </div>
@@ -199,6 +209,12 @@ export default function PageClient({ user, products }: PageClientProps) {
                             placeholder="Pesquisar..."
                             type="search"
                             name="search"
+                            defaultValue={searchParams.get("search") || ""}
+                            onChange={(e) => {
+                              e.target.value
+                                ? router.replace("/?search=" + e.target.value)
+                                : router.replace("/");
+                            }}
                           />
                         </div>
                       </div>
