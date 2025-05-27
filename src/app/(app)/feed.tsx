@@ -41,7 +41,7 @@ export default function Example({ products }: { products: Products[] }) {
                         <p className="text-sm text-gray-900">
                           Criada em{" "}
                           <time dateTime={"application.date"}>
-                            {product.createdAt.toLocaleDateString()}
+                            {product.createdAt.toLocaleDateString("pt-BR", {timeZone:"America/Sao_Paulo"})}
                           </time>
                         </p>
                         <p className="mt-2 flex items-center text-sm text-gray-500">
