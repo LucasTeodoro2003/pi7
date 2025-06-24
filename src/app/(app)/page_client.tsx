@@ -5,7 +5,7 @@ import { Menu, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Feed from "./feed";
-import { Products, User } from "@prisma/client";
+import { Prisma, Products, User } from "@prisma/client";
 import signGoOut from "@/shared/lib/signOut";
 import ModalServer from "../../feature/updateUser/ui/modalserver";
 import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
@@ -28,11 +28,18 @@ interface PageClientProps {
   user: User;
   firtsname: string;
   users: User[];
-  products: Products[];
+  products: Prisma.ProductsGetPayload<{
+    include: { comments: { include: { user: true } } };
+  }>[];
   allProducts: Products[];
 }
 
-export default function PageClient({ user, products, allProducts, users }: PageClientProps) {
+export default function PageClient({
+  user,
+  products,
+  allProducts,
+  users,
+}: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
   const [openAuthorize, setOpenAuthorize] = useState(false);
   const [openPermission, setOpenPermission] = useState(false);
@@ -74,7 +81,7 @@ export default function PageClient({ user, products, allProducts, users }: PageC
   ];
   const userNavigation = [
     { name: "Seu Perfil", href: "#" },
-          ...(user.permission !== 3
+    ...(user.permission !== 3
       ? [
           {
             name: "Solicitar Acesso Avançado",
@@ -85,7 +92,7 @@ export default function PageClient({ user, products, allProducts, users }: PageC
           },
         ]
       : []),
-          ...(user.permission === 3
+    ...(user.permission === 3
       ? [
           {
             name: "Gerenciar Usuarios",
@@ -96,7 +103,7 @@ export default function PageClient({ user, products, allProducts, users }: PageC
           },
         ]
       : []),
-      { name: "Sair", href: "#", onclick: signGoOut },
+    { name: "Sair", href: "#", onclick: signGoOut },
   ];
 
   return (
@@ -399,21 +406,35 @@ export default function PageClient({ user, products, allProducts, users }: PageC
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed products={filteredProducts} user={user}/>
+                  <Feed products={filteredProducts} user={user} />
                   <ModalServer user={user} />
                   <ModalServerProduct
                     user={user}
                     openProduct={openPromotion}
                     setOpenProduct={setOpenPromotion}
                   />
-                  <ModalServerAuthorizeProducts user={user} openAuthorize={openAuthorize} setOpenAuthorize={setOpenAuthorize} products={allProducts}/>
-                  <ModalServerPermission user={user} users={users} openPermission={openPermission} setOpenPermission={setOpenPermission}/>
-                  <ModalServerSendRequest user={user} setOpenModal={setSendRequest} openModal={openRequest}/>
+                  <ModalServerAuthorizeProducts
+                    user={user}
+                    openAuthorize={openAuthorize}
+                    setOpenAuthorize={setOpenAuthorize}
+                    products={allProducts}
+                  />
+                  <ModalServerPermission
+                    user={user}
+                    users={users}
+                    openPermission={openPermission}
+                    setOpenPermission={setOpenPermission}
+                  />
+                  <ModalServerSendRequest
+                    user={user}
+                    setOpenModal={setSendRequest}
+                    openModal={openRequest}
+                  />
                 </section>
               </div>
 
               {/* Right column */}
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-4 max-w-96 mx-auto sticky top-12">
                 <section aria-labelledby="section-2-title">
                   <h2 className="sr-only" id="section-2-title">
                     Section title

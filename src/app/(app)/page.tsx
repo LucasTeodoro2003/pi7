@@ -24,7 +24,7 @@ export default async function Page({
 
   const users = await db.user.findMany();
 
-  if (!user1 ) {
+  if (!user1) {
     redirect("/noAcess");
   }
 
@@ -45,7 +45,7 @@ export default async function Page({
         },
       ],
       authorizeProduct: {
-        not: null
+        not: null,
       },
       // nome: {
       //   search: search || undefined,
@@ -60,9 +60,16 @@ export default async function Page({
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
-  const allProducts = await db.products.findMany()
+  const allProducts = await db.products.findMany();
 
   return (
     <PageClient
