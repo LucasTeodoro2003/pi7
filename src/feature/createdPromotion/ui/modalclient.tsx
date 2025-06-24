@@ -34,11 +34,26 @@ export default function ModalClientProduct({
   setOpenProduct,
 }: ModalClientProductPromp) {
   const [type, setType] = useState<string>("PRODUTO");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      const formData = new FormData(e.currentTarget);
+      try {
+        await createPromotion(user.id, formData);
+        setOpenProduct(false);
+      } catch (err) {
+        alert("Erro ao atualizar");
+      }
+      setIsSubmitting(false);
+      alert("Post Enviado aos Moderadores, por favor Aguarde")
+    };
 
   return (
     <Dialog open={openProduct} onOpenChange={setOpenProduct}>
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
-        <form action={createPromotion.bind(undefined, user.id)}>
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Cadastro de Promoção</DialogTitle>
             <DialogDescription>
@@ -123,7 +138,12 @@ export default function ModalClientProduct({
                 </SelectContent>
               </Select>
             </div>
-            <Button type="submit">Salvar</Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Salvando..." : "Salvar"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

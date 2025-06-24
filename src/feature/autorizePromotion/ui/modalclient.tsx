@@ -9,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/dialog";
-import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Products, User } from "@prisma/client";
 
@@ -26,31 +25,24 @@ export default function ModalAuthorizeProducts({
   setOpenAuthorize,
   products,
 }: ModalAuthorizeProductsPromp) {
-  // Produtos não autorizados
-  const postNotAuthorize = products.filter((product) => !product.authorizeProduct);
+  const postNotAuthorize = products.filter(
+    (product) => !product.authorizeProduct
+  );
 
-  // Estados do formulário
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [name, setName] = useState(user.name || "");
-  const [image, setImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Manipulador de seleção dos produtos
   const handleSelectProduct = (id: string) => {
     setSelectedProducts((prev) =>
       prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
     );
   };
 
-  // Manipulador do formulário
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedProducts.length === 0) return;
     setIsSubmitting(true);
     const formData = new FormData();
-    formData.append("name", name);
-    if (image) formData.append("image", image);
-
     try {
       await updatePermissionProduct(user.id, selectedProducts, formData);
       setOpenAuthorize(false);
@@ -58,6 +50,7 @@ export default function ModalAuthorizeProducts({
       alert("Erro ao atualizar");
     }
     setIsSubmitting(false);
+    window.location.reload();
   };
 
   return (
@@ -65,43 +58,16 @@ export default function ModalAuthorizeProducts({
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Primeiro Acesso</DialogTitle>
+            <DialogTitle>AUTORIZE OS POSTS</DialogTitle>
             <DialogDescription>
-              Digite suas informações e autorize produtos
+              Para autorizar, selecione os posts e clique em salvar
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-center">
-                Nome
-              </Label>
-              <Input
-                id="name"
-                className="col-span-3"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="flex w-full items-center gap-1.5">
-              <Label htmlFor="image" className="text-center">
-                Selecione sua foto
-              </Label>
-              <div className="flex w-full items-center gap-1.5">
-                <Input
-                  id="image"
-                  type="file"
-                  name="image"
-                  accept="image/*"
-                  onChange={(e) =>
-                    setImage(e.target.files && e.target.files[0] ? e.target.files[0] : null)
-                  }
-                />
-              </div>
-            </div>
             <div className="mt-4">
-              <Label className="mb-2 block">Selecione os produtos para autorizar:</Label>
+              <Label className="mb-2 block">
+                Selecione os produtos para autorizar:
+              </Label>
               <div className="max-h-48 overflow-auto border rounded px-2 py-1 space-y-2">
                 {postNotAuthorize.length === 0 && (
                   <span className="text-gray-400">
@@ -120,8 +86,11 @@ export default function ModalAuthorizeProducts({
                       onChange={() => handleSelectProduct(product.id)}
                       className="accent-sky-600"
                     />
-                    <Label htmlFor={product.id} className="cursor-pointer">
-                      <span className="font-medium">{product.nome}</span>{" "}
+                    <Label
+                      htmlFor={product.id}
+                      className="cursor-pointer flex flex-col gap-1"
+                    >
+                      <span className="font-medium">{product.nome}</span>
                       <span className="text-xs text-gray-500">
                         ({product.typeProduct}, R$ {product.price})
                       </span>
@@ -131,6 +100,18 @@ export default function ModalAuthorizeProducts({
                           alt={product.nome}
                           className="inline ml-2 h-8 w-8 object-cover rounded border"
                         />
+                      )}
+                      {product.link && product.link !== "#" ? (
+                        <a
+                          href={product.link}
+                          className="text-cyan-700 underline break-all"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {product.link}
+                        </a>
+                      ) : (
+                        <span className="text-red-700">SEM LINK</span>
                       )}
                     </Label>
                   </div>

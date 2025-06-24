@@ -44,6 +44,9 @@ export default async function Page({
           },
         },
       ],
+      authorizeProduct: {
+        not: null
+      },
       // nome: {
       //   search: search || undefined,
       // },
@@ -59,12 +62,16 @@ export default async function Page({
     },
   });
 
+  const allProducts = await db.products.findMany()
+  console.log("TODOS OS PRODUTOS: ", allProducts)
+
   return (
     <PageClient
       user={user1}
       firtsname={firstname}
       users={users}
       products={products}
+      allProducts={allProducts}
     />
   );
 }

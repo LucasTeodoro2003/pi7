@@ -27,9 +27,10 @@ interface PageClientProps {
   firtsname: string;
   users: User[];
   products: Products[];
+  allProducts: Products[];
 }
 
-export default function PageClient({ user, products }: PageClientProps) {
+export default function PageClient({ user, products, allProducts }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
   const [openAuthorize, setOpenAuthorize] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -380,7 +381,7 @@ export default function PageClient({ user, products }: PageClientProps) {
                     openProduct={openPromotion}
                     setOpenProduct={setOpenPromotion}
                   />
-                  <ModalServerAuthorizeProducts user={user} openAuthorize={openAuthorize} setOpenAuthorize={setOpenAuthorize} products={products}/>
+                  <ModalServerAuthorizeProducts user={user} openAuthorize={openAuthorize} setOpenAuthorize={setOpenAuthorize} products={allProducts}/>
                 </section>
               </div>
 
