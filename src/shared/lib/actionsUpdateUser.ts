@@ -11,7 +11,8 @@ export async function updateUser(userId: string, formData: FormData) {
       data: {
         emailVerified: new Date(),
         name: formData.get("name")?.toString(),
-        image: await fileToBase64(formData.get("image") as File)
+        image: await fileToBase64(formData.get("image") as File),
+        updatedAt: new Date()
       },
     });
     revalidatePath('/')

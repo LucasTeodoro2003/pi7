@@ -82,7 +82,8 @@ model Products {
   price         String
   link          String
   typeProduct   String
-  deleteProdutc DateTime?
+  deleteProduct DateTime?
+  authorizeProduct DateTime?
   user          User      @relation(fields: [userProduct], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

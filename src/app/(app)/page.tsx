@@ -34,12 +34,12 @@ export default async function Page({
     where: {
       OR: [
         {
-          deleteProdutc: {
+          deleteProduct: {
             gte: new Date(),
           },
         },
         {
-          deleteProdutc: {
+          deleteProduct: {
             equals: null,
           },
         },

@@ -19,7 +19,7 @@ export async function createPromotion(userId: string, formData: FormData) {
         nome: formData.get("name")?.toString() || "",
         link: formData.get("link")?.toString() || "",
         price: priceNew.toString(),
-        deleteProdutc: data,      
+        deleteProduct: data,      
         image: await fileToBase64(formData.get("image") as File),
         userProduct: userId,
         typeProduct: formData.get("type")?.toString() || "",

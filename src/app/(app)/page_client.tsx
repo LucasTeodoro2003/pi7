@@ -9,7 +9,7 @@ import { Products, User } from "@prisma/client";
 import signGoOut from "@/shared/lib/signOut";
 import ModalServer from "../../feature/updateUser/ui/modalserver";
 import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
-import { useRouter, useSearchParams } from "next/navigation";
+import ModalServerAuthorizeProducts from "@/feature/autorizePromotion/ui/modalserver";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -31,17 +31,13 @@ interface PageClientProps {
 
 export default function PageClient({ user, products }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
+  const [openAuthorize, setOpenAuthorize] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [productsList, setProductsList] = useState(products);
-   const [currentPage, setCurrentPage] = useState(0);
+  const [productsList] = useState(products);
+  const [, setCurrentPage] = useState(0);
 
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const filteredProducts = productsList.filter(
-    (products) =>
-      products.nome?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = productsList.filter((products) =>
+    products.nome?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const navigation = [
@@ -54,6 +50,17 @@ export default function PageClient({ user, products }: PageClientProps) {
             name: "Nova Promoção",
             onclick: () => {
               setOpenPromotion(true);
+            },
+            current: false,
+          },
+        ]
+      : []),
+    ...(user.permission === 3
+      ? [
+          {
+            name: "Verficar Posts",
+            onclick: () => {
+              setOpenAuthorize(true);
             },
             current: false,
           },
@@ -373,6 +380,7 @@ export default function PageClient({ user, products }: PageClientProps) {
                     openProduct={openPromotion}
                     setOpenProduct={setOpenPromotion}
                   />
+                  <ModalServerAuthorizeProducts user={user} openAuthorize={openAuthorize} setOpenAuthorize={setOpenAuthorize} products={products}/>
                 </section>
               </div>
 
