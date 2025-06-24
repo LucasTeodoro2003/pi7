@@ -3,12 +3,11 @@
 import db from "@/shared/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function updatePermissionProduct(userId: string, productIds: string[], formData: FormData) {
+export async function updatePermissionProduct(productIds: string[]) {
   try {
     await db.products.updateMany({
       where: {
         id: { in: productIds },
-        userProduct: userId,
       },
       data: {
         authorizeProduct: new Date(),

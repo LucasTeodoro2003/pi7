@@ -42,9 +42,8 @@ export default function ModalAuthorizeProducts({
     e.preventDefault();
     if (selectedProducts.length === 0) return;
     setIsSubmitting(true);
-    const formData = new FormData();
     try {
-      await updatePermissionProduct(user.id, selectedProducts, formData);
+      await updatePermissionProduct(selectedProducts);
       setOpenAuthorize(false);
     } catch (err) {
       alert("Erro ao atualizar");

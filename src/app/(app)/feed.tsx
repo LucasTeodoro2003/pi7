@@ -119,14 +119,14 @@ function ProductView({
             {userPermission ? (
               <div className="flex text-sm row-span-2 text-end">
                 <button
-                  onClick={() => deleteProduct(product.id)}
+                  onClick={(e) => {deleteProduct(product.id); e.preventDefault()}}
                   className="transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-red-100 rounded p-1"
                   title="Delete"
                 >
                   <Trash2 className="text-gray-500 hover:text-red-600" />
                 </button>
                 <button
-                  onClick={() => {}}
+                  onClick={(e) => {e.preventDefault()}}
                   className="ml-2 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-yellow-100 rounded p-1"
                   title="Edity"
                 >
