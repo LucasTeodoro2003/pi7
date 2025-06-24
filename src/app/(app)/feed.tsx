@@ -5,11 +5,12 @@ import {
   ChatBubbleLeftEllipsisIcon,
 } from "@heroicons/react/20/solid";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { Prisma, User } from "@prisma/client";
+import { Prisma, Products, User } from "@prisma/client";
 import { BadgeDollarSign, SquarePen, Trash2 } from "lucide-react";
 
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { createComment } from "@/feature/commentPromotion/api/create-comment";
 
 interface ExampleProps {
   products: Prisma.ProductsGetPayload<{
@@ -141,6 +142,7 @@ function ProductView({
       </a>
 
       <ProductCommentsDialog
+        product={product}
         comments={product.comments}
         user={user}
         open={open}
@@ -151,11 +153,13 @@ function ProductView({
 }
 
 export function ProductCommentsDialog({
+  product,
   comments,
   user,
   open,
   setOpen,
 }: {
+  product: Products;
   comments: Prisma.CommentsGetPayload<{ include: { user: true } }>[];
   user: User;
   open: boolean;
@@ -194,9 +198,12 @@ export function ProductCommentsDialog({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 mx-4 w-full sm:max-w-lg sm:p-6">
                 <div className="flow-root">
-                  <ul role="list" className="-mb-8">
+                  <ul
+                    role="list"
+                    className="max-h-[calc(90vh-200px)] overflow-y-auto"
+                  >
                     {comments.map((comment, idx) => (
                       <li key={comment.id}>
                         <div className="relative pb-8">
@@ -245,9 +252,7 @@ export function ProductCommentsDialog({
                     ))}
                   </ul>
 
-                  <div className="mt-6">
-                    <ProductCommentsInput user={user} />
-                  </div>
+                  <ProductCommentsInput user={user} product={product} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -258,7 +263,15 @@ export function ProductCommentsDialog({
   );
 }
 
-function ProductCommentsInput({ user }: { user: User }) {
+function ProductCommentsInput({
+  user,
+  product,
+}: {
+  user: User;
+  product: Products;
+}) {
+  const [text, setText] = useState("");
+
   return (
     <div className="flex items-start space-x-4">
       <div className="flex-shrink-0">
@@ -270,17 +283,18 @@ function ProductCommentsInput({ user }: { user: User }) {
       </div>
       <div className="min-w-0 flex-1">
         <form action="#" className="relative">
-          <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+          <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-sky-600">
             <label htmlFor="comment" className="sr-only">
-              Add your comment
+              Escreva um comentário
             </label>
             <textarea
               rows={3}
               name="comment"
               id="comment"
               className="block outline-none px-1.5 w-full resize-none border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-              placeholder="Add your comment..."
-              defaultValue={""}
+              placeholder="Escreva um comentário..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
             />
 
             {/* Spacer element to match the height of the toolbar */}
@@ -296,10 +310,13 @@ function ProductCommentsInput({ user }: { user: User }) {
             <div className="flex items-center space-x-5"></div>
             <div className="flex-shrink-0">
               <button
-                type="submit"
-                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                type="button"
+                className="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                onClick={() => {
+                  createComment(user.id, product.id, text);
+                }}
               >
-                Post
+                Postar
               </button>
             </div>
           </div>
