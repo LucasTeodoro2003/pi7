@@ -24,7 +24,7 @@ export default async function Page({
 
   const users = await db.user.findMany();
 
-  if (!user1 || user1.permission != 3) {
+  if (!user1 ) {
     redirect("/noAcess");
   }
 
@@ -44,9 +44,9 @@ export default async function Page({
           },
         },
       ],
-      nome: {
-        search: search || undefined,
-      },
+      // nome: {
+      //   search: search || undefined,
+      // },
       typeProduct:
         type === "products"
           ? "PRODUTO"

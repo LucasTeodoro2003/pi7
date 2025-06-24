@@ -31,21 +31,34 @@ interface PageClientProps {
 
 export default function PageClient({ user, products }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [productsList, setProductsList] = useState(products);
+   const [currentPage, setCurrentPage] = useState(0);
+
 
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const filteredProducts = productsList.filter(
+    (products) =>
+      products.nome?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const navigation = [
     { name: "Tudo", href: "/", current: false },
     { name: "Produtos", href: "/?type=products", current: true },
     { name: "Cupons", href: "/?type=coupons", current: false },
-    {
-      name: "Nova Promoção",
-      onclick: () => {
-        setOpenPromotion(true);
-      },
-      current: false,
-    },
+    ...(user.permission !== 1
+      ? [
+          {
+            name: "Nova Promoção",
+            onclick: () => {
+              setOpenPromotion(true);
+            },
+            current: false,
+          },
+        ]
+      : []),
   ];
   const userNavigation = [
     { name: "Seu Perfil", href: "#" },
@@ -141,11 +154,15 @@ export default function PageClient({ user, products }: PageClientProps) {
                           placeholder="Pesquisar..."
                           type="search"
                           name="search"
-                          defaultValue={searchParams.get("search") || ""}
+                          // onChange={(e) => {
+                          //   e.target.value
+                          //     ? router.replace("/?search=" + e.target.value)
+                          //     : router.replace("/");
+                          // }}
+                          value={searchTerm}
                           onChange={(e) => {
-                            e.target.value
-                              ? router.replace("/?search=" + e.target.value)
-                              : router.replace("/");
+                            setSearchTerm(e.target.value);
+                            setCurrentPage(0);
                           }}
                         />
                       </div>
@@ -209,11 +226,15 @@ export default function PageClient({ user, products }: PageClientProps) {
                             placeholder="Pesquisar..."
                             type="search"
                             name="search"
-                            defaultValue={searchParams.get("search") || ""}
+                            // onChange={(e) => {
+                            //   e.target.value
+                            //     ? router.replace("/?search=" + e.target.value)
+                            //     : router.replace("/");
+                            // }}
+                            value={searchTerm}
                             onChange={(e) => {
-                              e.target.value
-                                ? router.replace("/?search=" + e.target.value)
-                                : router.replace("/");
+                              setSearchTerm(e.target.value);
+                              setCurrentPage(0);
                             }}
                           />
                         </div>
@@ -345,7 +366,7 @@ export default function PageClient({ user, products }: PageClientProps) {
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed products={products} />
+                  <Feed products={filteredProducts} />
                   <ModalServer user={user} />
                   <ModalServerProduct
                     user={user}
