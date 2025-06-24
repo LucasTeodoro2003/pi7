@@ -12,6 +12,7 @@ import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
 import ModalServerAuthorizeProducts from "@/feature/autorizePromotion/ui/modalserver";
 import ModalServerPermission from "@/feature/authorizeUserPermission/ui/modalserver";
 import ModalServerSendRequest from "@/feature/sendRequest/ui/modalserver";
+import ModalPerfil from "@/feature/updateMyPerfil/ui/modalserver";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -43,6 +44,7 @@ export default function PageClient({
   const [openPromotion, setOpenPromotion] = useState(false);
   const [openAuthorize, setOpenAuthorize] = useState(false);
   const [openPermission, setOpenPermission] = useState(false);
+  const [openPerfil, setOpenPerfil] = useState(false);
   const [openRequest, setSendRequest] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [productsList] = useState(products);
@@ -80,7 +82,9 @@ export default function PageClient({
       : []),
   ];
   const userNavigation = [
-    { name: "Seu Perfil", href: "#" },
+    { name: "Seu Perfil", onclick: () => {
+      setOpenPerfil(true)
+    } },
     ...(user.permission !== 3
       ? [
           {
@@ -430,6 +434,7 @@ export default function PageClient({
                     setOpenModal={setSendRequest}
                     openModal={openRequest}
                   />
+                  <ModalPerfil openPerfil={openPerfil} setOpenPerfil={setOpenPerfil} user={user}/>
                 </section>
               </div>
 
