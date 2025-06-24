@@ -63,7 +63,6 @@ export default async function Page({
   });
 
   const allProducts = await db.products.findMany()
-  console.log("TODOS OS PRODUTOS: ", allProducts)
 
   return (
     <PageClient

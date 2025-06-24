@@ -10,6 +10,8 @@ import signGoOut from "@/shared/lib/signOut";
 import ModalServer from "../../feature/updateUser/ui/modalserver";
 import ModalServerProduct from "@/feature/createdPromotion/ui/modalserver";
 import ModalServerAuthorizeProducts from "@/feature/autorizePromotion/ui/modalserver";
+import ModalServerPermission from "@/feature/authorizeUserPermission/ui/modalserver";
+import ModalServerSendRequest from "@/feature/sendRequest/ui/modalserver";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -30,9 +32,11 @@ interface PageClientProps {
   allProducts: Products[];
 }
 
-export default function PageClient({ user, products, allProducts }: PageClientProps) {
+export default function PageClient({ user, products, allProducts, users }: PageClientProps) {
   const [openPromotion, setOpenPromotion] = useState(false);
   const [openAuthorize, setOpenAuthorize] = useState(false);
+  const [openPermission, setOpenPermission] = useState(false);
+  const [openRequest, setSendRequest] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [productsList] = useState(products);
   const [, setCurrentPage] = useState(0);
@@ -70,8 +74,29 @@ export default function PageClient({ user, products, allProducts }: PageClientPr
   ];
   const userNavigation = [
     { name: "Seu Perfil", href: "#" },
-    { name: "Configurações", href: "#" },
-    { name: "Sair", href: "#", onclick: signGoOut },
+          ...(user.permission !== 3
+      ? [
+          {
+            name: "Solicitar Acesso Avançado",
+            onclick: () => {
+              setSendRequest(true);
+            },
+            current: false,
+          },
+        ]
+      : []),
+          ...(user.permission === 3
+      ? [
+          {
+            name: "Gerenciar Usuarios",
+            onclick: () => {
+              setOpenPermission(true);
+            },
+            current: false,
+          },
+        ]
+      : []),
+      { name: "Sair", href: "#", onclick: signGoOut },
   ];
 
   return (
@@ -382,6 +407,8 @@ export default function PageClient({ user, products, allProducts }: PageClientPr
                     setOpenProduct={setOpenPromotion}
                   />
                   <ModalServerAuthorizeProducts user={user} openAuthorize={openAuthorize} setOpenAuthorize={setOpenAuthorize} products={allProducts}/>
+                  <ModalServerPermission user={user} users={users} openPermission={openPermission} setOpenPermission={setOpenPermission}/>
+                  <ModalServerSendRequest user={user} setOpenModal={setSendRequest} openModal={openRequest}/>
                 </section>
               </div>
 

@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { fileToBase64 } from "./convertImage";
 
 export async function createPromotion(userId: string, formData: FormData) {
-  console.log("\n\n\nFORMUlARIO AQUI: ", formData, "\n\n\n")
   const priceNew = ((formData.get("price") as string).includes(".") ? (formData.get("price") as string).replace(".", ",") : `${formData.get("price") as string},00`);
   let data;
   if(formData.get("promoTime") !== ""){

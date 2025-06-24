@@ -26,7 +26,8 @@ const signUp = async (formData: FormData) => {
           data: {
             email: validateData.email.toLocaleLowerCase(),
             password: hash,
-            permission: 3, //Usuario so Olhar 3 - Usuario Criar Produtos 2 - Usuario Administrador 1
+            permission: 1, //Usuario so Olhar 1 - Usuario Criar Produtos 2 - Usuario Administrador 3
+            authorizationUp: false
           },
         });
       } catch (err:any) {
