@@ -399,7 +399,7 @@ export default function PageClient({ user, products, allProducts, users }: PageC
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed products={filteredProducts} />
+                  <Feed products={filteredProducts} user={user}/>
                   <ModalServer user={user} />
                   <ModalServerProduct
                     user={user}
