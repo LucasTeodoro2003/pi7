@@ -35,7 +35,7 @@ model User {
   sessions      Session[]
   products      Products[]
   comments      Comments[]
-  permission    Int        @default(3)
+  permission    Int        @default(1)
   authorizationDate DateTime?
   authorizationUp Boolean @default(false)
   description String?
