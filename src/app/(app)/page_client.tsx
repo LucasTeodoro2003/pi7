@@ -82,9 +82,12 @@ export default function PageClient({
       : []),
   ];
   const userNavigation = [
-    { name: "Seu Perfil", onclick: () => {
-      setOpenPerfil(true)
-    } },
+    {
+      name: "Seu Perfil",
+      onclick: () => {
+        setOpenPerfil(true);
+      },
+    },
     ...(user.permission !== 3
       ? [
           {
@@ -434,7 +437,11 @@ export default function PageClient({
                     setOpenModal={setSendRequest}
                     openModal={openRequest}
                   />
-                  <ModalPerfil openPerfil={openPerfil} setOpenPerfil={setOpenPerfil} user={user}/>
+                  <ModalPerfil
+                    openPerfil={openPerfil}
+                    setOpenPerfil={setOpenPerfil}
+                    user={user}
+                  />
                 </section>
               </div>
 
@@ -448,12 +455,12 @@ export default function PageClient({
                     <div className="p-6">
                       <a
                         className="w-full"
-                        href="https://max.com"
+                        href="https://www.youtube.com/@CazeTV"
                         target="_blank"
                       >
                         <img
                           className="w-full"
-                          src="https://s0.2mdn.net/simgad/6944951142170773320"
+                          src="https://scontent.fpoj7-1.fna.fbcdn.net/v/t39.35426-6/508694506_2530069694058031_1888136537855336422_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_eui2=AeEj-r9JAHMz2kYtG_LUEUuRvMdn6VchZQa8x2fpVyFlBj1RmZ9Ej6QRD7waP50w_EC8xfETAR4XQcMcpzx4gxh2&_nc_ohc=9qISQidKh6gQ7kNvwH_gItk&_nc_oc=Adm43G66d3jdfr84TL5KxQ3EsLUJueQwJgX0y29k3311HDOVJOVhyFpJybjqLSMUW3vlavlfcKUZ4VvrvjF4w1BK&_nc_zt=14&_nc_ht=scontent.fpoj7-1.fna&_nc_gid=blHsIiPeT8FvV5bRCThHlg&oh=00_AfNlZAzfrq-VFaNynC66q9LwP-OJ_YlxouKdgw6Z_epq_Q&oe=6864B9F6"
                         ></img>
                       </a>
                     </div>
