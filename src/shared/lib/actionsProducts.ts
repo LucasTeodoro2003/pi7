@@ -2,6 +2,7 @@
 
 import db from "@/shared/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { fileToBase64 } from "./convertImage";
 
 export async function deleteProduct(productId: string) {
   try {
@@ -15,13 +16,16 @@ export async function deleteProduct(productId: string) {
   }
 }
 
-export async function edityProduct(productId: string) {
+export async function edityProduct(productId: string, formData: FormData) {
   try {
     await db.products.update({
       where: { id: productId },
       data: {
-        updatedAt: new Date()
-
+        updatedAt: new Date(),
+        image: await fileToBase64(formData.get("image") as File),
+        price: formData.get("price")?.toString(),
+        link: formData.get("link")?.toString(),
+        nome: formData.get("name")?.toString()
       }
     });
     revalidatePath('/')
