@@ -8,7 +8,14 @@ import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { Prisma, Products, User } from "@prisma/client";
 import { BadgeDollarSign, SquarePen, Trash2 } from "lucide-react";
 
-import { Fragment, useRef, useState } from "react";
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { createComment } from "@/feature/commentPromotion/api/create-comment";
 
@@ -23,7 +30,14 @@ interface ExampleProps {
   setSelectProduct: (id: string | null) => void;
 }
 
-export default function Example({ products, user, setOpenUpdateProducts, openUpdateProducts, selectProduct, setSelectProduct}: ExampleProps) {
+export default function Example({
+  products,
+  user,
+  setOpenUpdateProducts,
+  openUpdateProducts,
+  selectProduct,
+  setSelectProduct,
+}: ExampleProps) {
   const userPermission = user.permission === 3;
 
   // const userProducts = products.map((product) => product.userProduct);
@@ -54,7 +68,7 @@ function ProductView({
   product,
   userPermission,
   user,
-  setOpenUpdateProducts, 
+  setOpenUpdateProducts,
   openUpdateProducts,
   setSelectProduct,
 }: {
@@ -66,7 +80,7 @@ function ProductView({
   setOpenUpdateProducts: (open: boolean) => void;
   openUpdateProducts: boolean;
   setSelectProduct: (id: string | null) => void;
-}){
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -152,7 +166,7 @@ function ProductView({
                   onClick={(e) => {
                     e.preventDefault();
                     setOpenUpdateProducts(true);
-                    setSelectProduct(product.id)
+                    setSelectProduct(product.id);
                   }}
                   className="ml-2 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-yellow-100 rounded p-1"
                   title="Edity"
@@ -160,7 +174,9 @@ function ProductView({
                   <SquarePen className="text-gray-500 hover:text-yellow-500" />
                 </button>
               </div>
-            ) : <></>}
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </a>
@@ -189,7 +205,13 @@ export function ProductCommentsDialog({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const ref = useRef<HTMLUListElement>(null);
+  const [optimisticComments, setOptimisticComments] = useState(comments);
   const cancelButtonRef = useRef(null);
+
+  useEffect(() => {
+    ref.current?.scrollTo({ top: 99999, behavior: "smooth" });
+  }, [optimisticComments]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -225,13 +247,14 @@ export function ProductCommentsDialog({
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 mx-4 w-full sm:max-w-lg sm:p-6">
                 <div className="flow-root">
                   <ul
+                    ref={ref}
                     role="list"
                     className="max-h-[calc(90vh-200px)] overflow-y-auto"
                   >
-                    {comments.map((comment, idx) => (
+                    {optimisticComments.map((comment, idx) => (
                       <li key={comment.id}>
                         <div className="relative pb-8">
-                          {idx !== comments.length - 1 ? (
+                          {idx !== optimisticComments.length - 1 ? (
                             <span
                               className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200"
                               aria-hidden="true"
@@ -276,7 +299,11 @@ export function ProductCommentsDialog({
                     ))}
                   </ul>
 
-                  <ProductCommentsInput user={user} product={product} />
+                  <ProductCommentsInput
+                    user={user}
+                    product={product}
+                    setOptimisticComments={setOptimisticComments}
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -290,9 +317,13 @@ export function ProductCommentsDialog({
 function ProductCommentsInput({
   user,
   product,
+  setOptimisticComments,
 }: {
   user: User;
   product: Products;
+  setOptimisticComments: Dispatch<
+    SetStateAction<Prisma.CommentsGetPayload<{ include: { user: true } }>[]>
+  >;
 }) {
   const [text, setText] = useState("");
 
@@ -337,6 +368,19 @@ function ProductCommentsInput({
                 className="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                 onClick={() => {
                   createComment(user.id, product.id, text);
+                  setOptimisticComments((comments) => [
+                    ...comments,
+                    {
+                      id: Math.random().toString(),
+                      userId: user.id,
+                      user,
+                      productId: product.id,
+                      texto: text,
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                    },
+                  ]);
+                  setText("");
                 }}
               >
                 Postar
