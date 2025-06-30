@@ -49,9 +49,11 @@ export default function PageClient({
   const [openPerfil, setOpenPerfil] = useState(false);
   const [openRequest, setSendRequest] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [openProductUpdate, setOpenProductUpdate] = useState(false)
+  const [openProductUpdate, setOpenProductUpdate] = useState(false);
   const [productsList] = useState(products);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
   const [, setCurrentPage] = useState(0);
 
   const filteredProducts = productsList.filter((products) =>
@@ -131,7 +133,7 @@ export default function PageClient({
                       <span className="sr-only">MixPromo</span>
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=blue&shade=300"
+                        src="/logo.png"
                         alt="MixPromo"
                       />
                     </a>
@@ -417,8 +419,21 @@ export default function PageClient({
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed products={filteredProducts} user={user} openUpdateProducts={openProductUpdate} setOpenUpdateProducts={setOpenProductUpdate} selectProduct={selectedProductId} setSelectProduct={setSelectedProductId}/>
-                  <ModalProducts selectProduct={selectedProductId} products={products} setOpenPerfil={setOpenProductUpdate} user={user} openPerfil={openProductUpdate}/>
+                  <Feed
+                    products={filteredProducts}
+                    user={user}
+                    openUpdateProducts={openProductUpdate}
+                    setOpenUpdateProducts={setOpenProductUpdate}
+                    selectProduct={selectedProductId}
+                    setSelectProduct={setSelectedProductId}
+                  />
+                  <ModalProducts
+                    selectProduct={selectedProductId}
+                    products={products}
+                    setOpenPerfil={setOpenProductUpdate}
+                    user={user}
+                    openPerfil={openProductUpdate}
+                  />
                   <ModalServer user={user} />
                   <ModalServerProduct
                     user={user}
