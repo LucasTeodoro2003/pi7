@@ -13,6 +13,8 @@ import ModalServerAuthorizeProducts from "@/feature/autorizePromotion/ui/modalse
 import ModalServerPermission from "@/feature/authorizeUserPermission/ui/modalserver";
 import ModalServerSendRequest from "@/feature/sendRequest/ui/modalserver";
 import ModalPerfil from "@/feature/updateMyPerfil/ui/modalserver";
+import ModalEdityProducts from "@/feature/updateProducts/ui/modalclient";
+import ModalProducts from "@/feature/updateProducts/ui/modalserver";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -47,7 +49,9 @@ export default function PageClient({
   const [openPerfil, setOpenPerfil] = useState(false);
   const [openRequest, setSendRequest] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [openProductUpdate, setOpenProductUpdate] = useState(false)
   const [productsList] = useState(products);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [, setCurrentPage] = useState(0);
 
   const filteredProducts = productsList.filter((products) =>
@@ -413,7 +417,8 @@ export default function PageClient({
                   <h2 className="sr-only" id="section-1-title">
                     Section title
                   </h2>
-                  <Feed products={filteredProducts} user={user} />
+                  <Feed products={filteredProducts} user={user} openUpdateProducts={openProductUpdate} setOpenUpdateProducts={setOpenProductUpdate} selectProduct={selectedProductId} setSelectProduct={setSelectedProductId}/>
+                  <ModalProducts selectProduct={selectedProductId} products={products} setOpenPerfil={setOpenProductUpdate} user={user} openPerfil={openProductUpdate}/>
                   <ModalServer user={user} />
                   <ModalServerProduct
                     user={user}

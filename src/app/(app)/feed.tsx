@@ -17,10 +17,20 @@ interface ExampleProps {
     include: { comments: { include: { user: true } } };
   }>[];
   user: User;
+  setOpenUpdateProducts: (open: boolean) => void;
+  openUpdateProducts: boolean;
+  selectProduct: string | null;
+  setSelectProduct: (id: string | null) => void;
 }
 
-export default function Example({ products, user }: ExampleProps) {
+export default function Example({ products, user, setOpenUpdateProducts, openUpdateProducts, selectProduct, setSelectProduct}: ExampleProps) {
   const userPermission = user.permission === 3;
+
+  // const userProducts = products.map((product) => product.userProduct);
+  // const idUser = user.id;
+
+  // console.log("COMPARANDO \n", userProducts, "\n", idUser);
+
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-md">
       <ul role="list" className="divide-y divide-gray-200">
@@ -30,6 +40,9 @@ export default function Example({ products, user }: ExampleProps) {
             product={product}
             userPermission={userPermission}
             user={user}
+            openUpdateProducts={openUpdateProducts}
+            setOpenUpdateProducts={setOpenUpdateProducts}
+            setSelectProduct={setSelectProduct}
           />
         ))}
       </ul>
@@ -41,13 +54,19 @@ function ProductView({
   product,
   userPermission,
   user,
+  setOpenUpdateProducts, 
+  openUpdateProducts,
+  setSelectProduct,
 }: {
   product: Prisma.ProductsGetPayload<{
     include: { comments: { include: { user: true } } };
   }>;
   userPermission: boolean;
   user: User;
-}) {
+  setOpenUpdateProducts: (open: boolean) => void;
+  openUpdateProducts: boolean;
+  setSelectProduct: (id: string | null) => void;
+}){
   const [open, setOpen] = useState(false);
 
   return (
@@ -117,26 +136,31 @@ function ProductView({
               className="h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
-            {userPermission ? (
+            {userPermission || product.userProduct === user.id ? (
               <div className="flex text-sm row-span-2 text-end">
                 <button
-                  onClick={(e) => {deleteProduct(product.id); e.preventDefault()}}
+                  onClick={(e) => {
+                    deleteProduct(product.id);
+                    e.preventDefault();
+                  }}
                   className="transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-red-100 rounded p-1"
                   title="Delete"
                 >
                   <Trash2 className="text-gray-500 hover:text-red-600" />
                 </button>
                 <button
-                  onClick={(e) => {e.preventDefault()}}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenUpdateProducts(true);
+                    setSelectProduct(product.id)
+                  }}
                   className="ml-2 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-yellow-100 rounded p-1"
                   title="Edity"
                 >
                   <SquarePen className="text-gray-500 hover:text-yellow-500" />
                 </button>
               </div>
-            ) : (
-              <></>
-            )}
+            ) : <></>}
           </div>
         </div>
       </a>
