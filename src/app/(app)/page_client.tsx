@@ -374,7 +374,7 @@ export default function PageClient({
                                 {user.email}
                               </div>
                             </div>
-                            <button
+                            {/* <button
                               type="button"
                               className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                             >
@@ -385,7 +385,7 @@ export default function PageClient({
                                 className="h-6 w-6"
                                 aria-hidden="true"
                               />
-                            </button>
+                            </button> */}
                           </div>
                           <div className="mt-3 space-y-1 px-2">
                             {userNavigation.map((item) => (

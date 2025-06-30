@@ -11,6 +11,7 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { User } from "@prisma/client";
+import { useState } from "react";
 
 interface ModalClientPromp {
   openModal: boolean;
@@ -18,10 +19,25 @@ interface ModalClientPromp {
 }
 
 export default function ModalClient({ openModal, user }: ModalClientPromp) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  try {
+    const formData = new FormData(e.currentTarget);
+    await updateUser(user.id, formData);
+  } catch (err) {
+    alert("Erro ao atualizar");
+  }
+  setIsSubmitting(false);
+  alert("Para criar e/ou editar Promoçoes e Cupons, solicite acesso elevado clicando na sua Foto")
+};
+
   return (
     <Dialog open={openModal}>
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
-        <form action={updateUser.bind(undefined, user.id)}>
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Primeiro Acesso</DialogTitle>
             <DialogDescription>Digite suas informações</DialogDescription>
@@ -43,7 +59,11 @@ export default function ModalClient({ openModal, user }: ModalClientPromp) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Salvar</Button>
+                        <Button
+              type="submit"
+            >
+              {isSubmitting ? "Salvando..." : "Salvar"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

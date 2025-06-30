@@ -26,11 +26,26 @@ export default function ModalClient({
   setOpenPerfil,
 }: ModalClientPromp) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  try {
+    const formData = new FormData(e.currentTarget);
+    await updatePerfilUser(user.id || "", formData);
+    setOpenPerfil(false);
+    window.location.reload();
+  } catch (err) {
+    alert("Erro ao atualizar");
+  }
+  setIsSubmitting(false);
+  alert("Atualizado com sucesso")
+};
   
   return (
     <Dialog open={openModal} onOpenChange={setOpenPerfil}>
       <DialogContent className="sm:max-w-[425px] max-w-[90%] rounded-lg">
-        <form action={updatePerfilUser.bind(undefined,user.id)}>
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <div className="flex items-center justify-between">
               <DialogTitle>Primeiro Acesso</DialogTitle>
